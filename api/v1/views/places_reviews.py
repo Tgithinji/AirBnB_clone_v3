@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """places_reviews module"""
 from api.v1.views import app_views
-from flask import abort, jsonify
+from flask import abort, jsonify, request
 from models import storage
 from models.place import Place
 from models.review import Review
@@ -41,40 +41,40 @@ def delete_review(review_id):
     return jsonify({}), 200
 
 
-@app_views.route('/api/v1/places/<place_id>/reviews', methods=['POST'],
+@app_views.route('/places/<place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
 def create_review(place_id):
     """"Creates a review"""
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
-    request = request.get_json()
-    if not request:
+    request_data = request.get_json()
+    if not request_data:
         abort(400, 'Not a JSON')
-    if 'user_id' not in request:
+    if 'user_id' not in request_data:
         abort(400, 'Missing user_id')
-    user = storage.get(User, request['user_id'])
+    user = storage.get(User, request_data['user_id'])
     if user is None:
         abort(404)
-    if 'text' not in request:
+    if 'text' not in request_data:
         abort(400, 'Missing text')
-    review = Review(**request)
+    review = Review(**request_data)
     review.save()
     return jsonify(review.to_dict()), 201
 
 
-@app_views.route('/api/v1/reviews/<review_id>', methods=['PUT'],
+@app_views.route('/reviews/<review_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_review(review_id):
     """Update a review"""
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
-    request = request.get_json()
-    if not request:
+    request_data = request.get_json()
+    if not request_data:
         abort(400, 'Not a JSON')
 
-    for key, value in request.items():
+    for key, value in request_data.items():
         if key not in ['id', 'user_id', 'place_id',
                        'created_at', 'updated_at']:
             setattr(review, key, value)
