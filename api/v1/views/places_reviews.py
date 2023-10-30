@@ -29,7 +29,8 @@ def get_review(review_id):
     return jsonify(review.to_dict())
 
 
-@app_views.route('/reviews/<review_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_review(review_id):
     """Deletes a review"""
     review = storage.get(Review, review_id)
@@ -38,6 +39,7 @@ def delete_review(review_id):
     review.delete()
     storage.save()
     return jsonify({}), 200
+
 
 @app_views.route('/api/v1/places/<place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
