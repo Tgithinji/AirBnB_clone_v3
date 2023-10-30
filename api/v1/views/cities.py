@@ -3,7 +3,7 @@
 Create a new view for State objects that handles
 all default RESTFul API actions
 """
-from models.city import
+from models.city import City
 from models.state import State
 from models import storage
 from flask import Flask, request, jsonify, abort
