@@ -12,6 +12,7 @@ from models import storage
 from flask import Flask, request, jsonify, abort
 from api.v1.views import app_views
 from flasgger.utils import swag_from
+from os import environ
 
 
 @app_views.route('/places/<place_id>/amenities',
