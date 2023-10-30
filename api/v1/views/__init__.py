@@ -12,7 +12,4 @@ from api.v1.views.amenities import *
 from api.v1.views.users import *
 from api.v1.views.places import *
 from api.v1.views.places_reviews import *
-<<<<<<< HEAD
 from api.v1.views.places_amenities import *
-=======
->>>>>>> 688042d517d27183361381246673fa438380c3e2
